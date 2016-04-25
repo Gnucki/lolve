@@ -16,6 +16,24 @@ module.exports = {
                     file: '%view.path%/index.jade'
                 }
             }
+        },
+        children: {
+            test: {
+            }
+        },
+        sequences: [
+            {
+                name: 'loadHome',
+                output: {
+                    responses: '@responses@'
+                }
+            }
+        ]
+    },
+    lolApi: {
+        host: '%lol.api.host%',
+        parameters: {
+            api_key: '%lol.api.key%'
         }
     }
 };

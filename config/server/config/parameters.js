@@ -11,6 +11,24 @@ var path = require('path'),
  * @see https://github.com/gnodi/danf/blob/master/resource/private/doc/documentation/core/configuration.md
  */
 module.exports = {
+    lol: {
+        api: {
+            protocol: 'https',
+            host: 'global.api.pvp.net:443',
+            key: 'd82b30fc-a7e0-4200-83e2-9288c22e07b6',
+            chunks: {
+                game: {
+                    version: 'v1.3'
+                },
+                league: {
+                    version: 'v2.5'
+                },
+                staticData: {
+                    version: 'v1.2'
+                }
+            }
+        }
+    },
     view: {
         path: fs.realpathSync(
             path.join(__dirname, '../../../resource/private/view')
