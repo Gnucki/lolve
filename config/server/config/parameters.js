@@ -15,7 +15,6 @@ module.exports = {
         api: {
             protocol: 'https',
             host: 'global.api.pvp.net:443',
-            key: 'd82b30fc-a7e0-4200-83e2-9288c22e07b6',
             chunks: {
                 game: {
                     version: 'v1.3'
