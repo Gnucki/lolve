@@ -15,7 +15,8 @@
         }
     ],
     "dependencies": {
-        "danf": "^0.4"
+        "danf": "git://git@github.com:Gnucki/danf.git#dev-stable",
+        "raphael": "^2.1"
     },
     "devDependencies": {
         "mocha": "^2.2",
