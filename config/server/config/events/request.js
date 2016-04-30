@@ -25,7 +25,8 @@ module.exports = {
             {
                 name: 'loadHome',
                 output: {
-                    responses: '@responses@'
+                    responses: '@responses@',
+                    champions: '@champions@'
                 }
             }
         ]

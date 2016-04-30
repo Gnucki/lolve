@@ -2,9 +2,9 @@ h1 Hi Thomas Prelot!
 
 p Welcome! Hope you will have fun developing with Danf!
 
-#ul
-#    each champion in champions.data
-#        li= 'http://ddragon.leagueoflegends.com/cdn/6.8.1/img/profileicon/' + champion.id + '.png'
+ul
+    each champion in champions.data
+        img(src='http://ddragon.leagueoflegends.com/cdn/6.8.1/img/champion/' + champion.key + '.png')
 
 p= 'champions: ' + responses.champions
 #p= 'summoners: ' + responses.summoners

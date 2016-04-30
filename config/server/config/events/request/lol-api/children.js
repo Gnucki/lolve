@@ -16,7 +16,7 @@ module.exports = {
     },
     game: {
         host: 'euw.api.pvp.net:443',
-        path: '/api/lol/:region/%lol.api.chunks.game.version%',
+        path: '/api/lol/:region/%lol.api.chunks.game.version%/game',
         methods: ['GET'],
         children: {
             summonerRecent: {
