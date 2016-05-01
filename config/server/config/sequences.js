@@ -4,7 +4,7 @@
  * @see https://github.com/gnodi/danf/blob/master/resource/private/doc/documentation/core/sequencing.md
  */
 module.exports = {
-    loadHome: {
+    loadChampions: {
         operations: [
             {
                 order: 0,
@@ -45,35 +45,69 @@ module.exports = {
                     '@responses.champions@'
                 ],
                 scope: 'champions'
-            }/*,
+            }
+        ]
+    },
+    checkLogin: {
+        children: [
             {
-                order: 10,
+                order: 0,
+                condition: function(stream, context) {
+                    return !context.request.session.connected;
+                },
+                name: 'redirectLogin'
+            }
+        ]
+    },
+    redirectLogin: {
+        operations: [
+            {
+                order: 0,
                 service: 'danf:http.router',
-                method: 'get',
+                method: 'find',
                 arguments: [
-                    '[-]lolApi.league.challenger'
+                    '!request.url!',
+                    '!request.method!'
                 ],
-                scope: 'route'
+                scope: 'originRoute'
             },
             {
-                order: 11,
+                order: 0,
+                service: 'danf:http.router',
+                method: 'get',
+                arguments: ['[-]login'],
+                scope: 'loginRoute'
+            },
+            {
+                order: 1,
                 service: 'danf:manipulation.proxyExecutor',
                 method: 'execute',
                 arguments: [
-                    '@route@',
-                    'follow',
+                    '@originRoute@',
+                    'resolve',
+                    {}
+                ],
+                scope: 'originUrl'
+            },
+            {
+                order: 2,
+                service: 'danf:manipulation.proxyExecutor',
+                method: 'execute',
+                arguments: [
+                    '@loginRoute@',
+                    'resolve',
                     {
-                        api_key: '$lol.api.key$',
-                        region: 'euw',
-                        type: 'RANKED_SOLO_5x5'
-                    },
-                    {},
-                    {
-                        protocol: '$lol.api.protocol$'
+                        origin: '@originUrl@'
                     }
                 ],
-                scope: 'responses.summoners'
-            }*/
+                scope: 'loginUrl'
+            },
+            {
+                order: 3,
+                service: 'danf:http.redirector',
+                method: 'redirect',
+                arguments: ['@loginUrl@']
+            }
         ]
     },
     load: {

@@ -5,8 +5,6 @@
  */
 module.exports = {
     home: {
-        path: '/',
-        methods: ['get'],
         view: {
             html: {
                 layout: {
@@ -17,15 +15,91 @@ module.exports = {
                 }
             }
         },
-        children: {
-            test: {
+        sequences: []
+    },
+    login: {
+        view: {
+            html: {
+                layout: {
+                    file: '%view.path%/layout.jade'
+                },
+                body: {
+                    file: '%view.path%/login.jade'
+                }
+            }
+        },
+        sequences: []
+    },
+    training: {
+        view: {
+            html: {
+                layout: {
+                    file: '%view.path%/layout.jade'
+                },
+                body: {
+                    file: '%view.path%/training.jade'
+                }
             }
         },
         sequences: [
             {
-                name: 'loadHome',
+                order: 0,
+                name: 'checkLogin'
+            }
+        ]
+    },
+    fight: {
+        view: {
+            html: {
+                layout: {
+                    file: '%view.path%/layout.jade'
+                },
+                body: {
+                    file: '%view.path%/fight.jade'
+                }
+            }
+        },
+        sequences: [
+            {
+                order: 0,
+                name: 'checkLogin'
+            }
+        ]
+    },
+    challenge: {
+        view: {
+            html: {
+                layout: {
+                    file: '%view.path%/layout.jade'
+                },
+                body: {
+                    file: '%view.path%/challenge.jade'
+                }
+            }
+        },
+        sequences: [
+            {
+                order: 0,
+                name: 'checkLogin'
+            }
+        ]
+    },
+    champions: {
+        view: {
+            html: {
+                layout: {
+                    file: '%view.path%/layout.jade'
+                },
+                body: {
+                    file: '%view.path%/champions.jade'
+                }
+            }
+        },
+        sequences: [
+            {
+                order: 0,
+                name: 'loadChampions',
                 output: {
-                    responses: '@responses@',
                     champions: '@champions@'
                 }
             }

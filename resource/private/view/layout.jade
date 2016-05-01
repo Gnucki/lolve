@@ -16,5 +16,15 @@ html
                 }
             };
         script(data-main='/app', src='/require', async)
-    body(id='body')
-        != _view.body
+    body
+        header
+            div(id='header')
+                h1
+                    a(href='/champions', data-ajax='{}')
+                        img(src='/-/gnucki-lolve/img/lolve.png')
+        article
+            div(id='body')
+                != _view.body
+        footer
+            div(id='footer')
+                a(href='/champions', data-ajax='{"autoload": 0}')

@@ -1,10 +1,19 @@
-h1 Hi Thomas Prelot!
+h2 Welcome to LoLve !
 
-p Welcome! Hope you will have fun developing with Danf!
+p LoLve is a game
 
-ul
-    each champion in champions.data
-        img(src='http://ddragon.leagueoflegends.com/cdn/6.8.1/img/champion/' + champion.key + '.png')
+p There are 3 game modes
 
-p= 'champions: ' + responses.champions
-#p= 'summoners: ' + responses.summoners
+div(class='row')
+    div(class='small-12 large-4 columns')
+        h3 Training
+        p Train vs a computer player to learn the basis
+        a(href='/training', data-ajax='{}') Train now !
+    div(class='small-12 large-4 columns')
+        h3 Fight
+        p Fight vs a random player
+        a(href='/fight', data-ajax='{}') Fight now !
+    div(class='small-12 large-4 columns')
+        h3 Challenge
+        p Challenge one of your friend
+        a(href='/challenge', data-ajax='{}') Challenge now !
