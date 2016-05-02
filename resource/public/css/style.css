@@ -36,6 +36,52 @@ html, body {
     width: 60px;
 }
 
+#body h1 {
+    color: #FFCC00; /*#2199E8*/
+    font-size: 32px;
+    font-weight: bold;
+}
+
+#body h2 {
+    color: #888;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#body .presentation {
+    padding: 10px 0 20px 0;
+}
+
+#body .modes {
+    border-top: 1px solid #444;
+    padding-top: 20px;
+}
+
+#body .info {
+    color: #888;
+    font-size: 0.9em;
+}
+
+#body label {
+    color: #888;
+}
+
+#body input[type=text] {
+    background-color: #888;
+    border: 1px solid #222;
+    display: inline-block;
+    height: 2rem;
+    max-width: 200px;
+    padding: 3px 8px;
+    width: auto;
+}
+
+#body #register, #body #login {
+    border-top: 1px solid #444;
+    padding: 20px 0 10px 0;
+}
+
 div {
     text-align: center;
 }
