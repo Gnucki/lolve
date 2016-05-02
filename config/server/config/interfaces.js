@@ -9,6 +9,13 @@ module.exports = {
             load: {}
         }
     },
+    encoder: {
+        methods: {
+            encode: {
+                arguments: ['string/data']
+            }
+        }
+    },
     summonerRoleDeterminer: {
         methods: {
             determine: {

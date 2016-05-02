@@ -12,6 +12,15 @@ module.exports = {
             loadSequence: '#danf:sequencing.sequencesContainer[load]#'
         }
     },
+    passwordEncoder: {
+        class: 'encoder',
+        properties: {
+            salt: '%encoding.salt%',
+            iterations: '%encoding.iterations%',
+            keylen: '%encoding.keylen%',
+            digest: '%encoding.digest%'
+        }
+    },
     summonerRoleDeterminer: {
         class: 'summonerRoleDeterminer'
     }
