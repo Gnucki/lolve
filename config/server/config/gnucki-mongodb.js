@@ -14,6 +14,10 @@ module.exports = {
                         password: {
                             type: 'string',
                             required: true
+                        },
+                        avatar: {
+                            type: 'string',
+                            required: true
                         }
                     }
                 },

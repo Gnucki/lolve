@@ -41,7 +41,29 @@ module.exports = {
                 }
             }
         },
-        sequences: []
+        sequences: [
+            {
+                condition: function(stream) {
+                    return 'login' === stream.mode;
+                },
+                name: 'login',
+                input: {
+                    username: '@username@',
+                    password: '@password@'
+                }
+            },
+            {
+                condition: function(stream) {
+                    return 'registering' === stream.mode;
+                },
+                name: 'register',
+                input: {
+                    username: '@username@',
+                    password: '@password@',
+                    avatar: '@avatar@'
+                }
+            }
+        ]
     },
     training: {
         view: {

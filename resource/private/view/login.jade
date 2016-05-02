@@ -8,18 +8,23 @@ div(class='row')
         div(id='login')
             p Login !
 
-            form(action='', method='POST')
+            form(action='/login', method='POST', data-ajax='{}')
                 label(class='label', for='username') Username
                 input(name='username', type='text')
                 label(class='label', for='password') Password
                 input(name='password', type='text')
                 input(name='mode', type='hidden', value='login')
+                br
+                input(type='submit', class='hollow button', value='Login')
         div(id='register')
             p No account yet ? Register !
 
-            form(action='', method='POST')
+            form(action='/login', method='POST', data-ajax='{}')
                 label(class='label', for='username') Username
                 input(name='username', type='text')
                 label(class='label', for='password') Password
                 input(name='password', type='text')
-                input(name='mode', type='hidden', value='register')
+                input(name='mode', type='hidden', value='registering')
+                input(name='avatar', type='hidden', value='Trundle')
+                br
+                input(type='submit', class='hollow button', value='Register')

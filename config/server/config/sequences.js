@@ -1,5 +1,11 @@
 'use strict';
 
+var crypto = require('crypto'),
+    encodePassword = function(password) {
+        crypto.pbkdf2Sync('secret', 'salt', 100000, 512, 'sha512')
+    }
+;
+
 /**
  * @see https://github.com/gnodi/danf/blob/master/resource/private/doc/documentation/core/sequencing.md
  */
@@ -107,6 +113,77 @@ module.exports = {
                 service: 'danf:http.redirector',
                 method: 'redirect',
                 arguments: ['@loginUrl@']
+            }
+        ]
+    },
+    login: {
+        stream: {
+            username: {
+                type: 'string',
+                required: true
+            },
+            password: {
+                type: 'string',
+                required: true
+            }
+        },
+        operations: [
+            {
+                order: 0,
+                service: 'passwordEncoder',
+                method: 'encode',
+                arguments: ['@password@'],
+                scope: 'password'
+            },
+            {
+                order: 1,
+                service: 'gnuckiMongodb:db.main.collection.players',
+                method: 'findOne',
+                arguments: [
+                    {
+                        username: '@username@',
+                        password: '@password@'
+                    }
+                ],
+                scope: 'player'
+            }
+        ]
+    },
+    register: {
+        stream: {
+            username: {
+                type: 'string',
+                required: true
+            },
+            password: {
+                type: 'string',
+                required: true
+            },
+            avatar: {
+                type: 'string',
+                required: true
+            }
+        },
+        operations: [
+            {
+                order: 0,
+                service: 'passwordEncoder',
+                method: 'encode',
+                arguments: ['@password@'],
+                scope: 'password'
+            },
+            {
+                order: 1,
+                service: 'gnuckiMongodb:db.main.collection.players',
+                method: 'insertOne',
+                arguments: [
+                    {
+                        username: '@username@',
+                        password: '@password@',
+                        avatar: '@avatar@'
+                    }
+                ],
+                scope: 'player'
             }
         ]
     },
