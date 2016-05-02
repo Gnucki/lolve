@@ -10,7 +10,16 @@ module.exports = {
     },
     login: {
         path: '/login',
-        methods: ['GET']
+        methods: ['GET'],
+        parameters: {
+            origin: {
+                type: 'string'
+            }
+        }
+    },
+    connect: {
+        path: '/login',
+        methods: ['POST']
     },
     training: {
         path: '/training',

@@ -30,6 +30,19 @@ module.exports = {
         },
         sequences: []
     },
+    connect: {
+        view: {
+            html: {
+                layout: {
+                    file: '%view.path%/layout.jade'
+                },
+                body: {
+                    file: '%view.path%/login.jade'
+                }
+            }
+        },
+        sequences: []
+    },
     training: {
         view: {
             html: {
