@@ -16,6 +16,7 @@
     ],
     "dependencies": {
         "danf": "git://git@github.com:Gnucki/danf.git#dev-stable",
+        "danf-gnucki-mongodb": "^0.1",
         "raphael": "^2.1"
     },
     "devDependencies": {
