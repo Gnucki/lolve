@@ -65,6 +65,13 @@ module.exports = {
             }
         ]
     },
+    logout: {
+        sequences: [
+            {
+                name: 'logout'
+            }
+        ]
+    },
     training: {
         view: {
             html: {

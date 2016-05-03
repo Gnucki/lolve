@@ -146,6 +146,41 @@ module.exports = {
                     }
                 ],
                 scope: 'player'
+    logout: {
+        stream: {},
+        operations: [
+            {
+                order: 0,
+                service: 'danf:http.sessionHandler',
+                method: 'set',
+                arguments: [
+                    'player',
+                    null
+                ]
+            },
+            {
+                order: 1,
+                service: 'danf:http.router',
+                method: 'get',
+                arguments: ['[-]home'],
+                scope: 'route'
+            },
+            {
+                order: 2,
+                service: 'danf:manipulation.proxyExecutor',
+                method: 'execute',
+                arguments: [
+                    '@route@',
+                    'resolve',
+                    {}
+                ],
+                scope: 'url'
+            },
+            {
+                order: 3,
+                service: 'danf:http.redirector',
+                method: 'redirect',
+                arguments: ['@url@']
             }
         ]
     },

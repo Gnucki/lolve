@@ -5,7 +5,8 @@ html
 
         link(rel='icon', type='image/png', href='favicon.png')
         link(rel='stylesheet', type='text/css', href='/-/gnucki-lolve/css/style.css')
-        link(rel='stylesheet', type='text/css', href='/-/gnucki-lolve/css/foundation.css')
+        link(rel='stylesheet', type='text/css', href='/-/gnucki-lolve/css/foundation/foundation.css')
+        link(rel='stylesheet', type='text/css', href='/-/gnucki-lolve/css/foundation/foundation-icons.css')
 
         script.
             var require = {
@@ -19,6 +20,8 @@ html
     body
         header
             div(id='header')
+                a(href='/logout', data-ajax='{}')
+                    i(class='fi-power size-36')
                 a(href='/', data-ajax='{}')
                     img(src='/-/gnucki-lolve/img/lolve.png')
         article

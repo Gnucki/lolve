@@ -17,6 +17,10 @@ module.exports = {
             }
         }
     },
+    logout: {
+        path: '/logout',
+        methods: ['GET']
+    },
     connect: {
         path: '/login',
         methods: ['POST']
