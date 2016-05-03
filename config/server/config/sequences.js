@@ -59,7 +59,7 @@ module.exports = {
             {
                 order: 0,
                 condition: function(stream, context) {
-                    return !context.request.session.connected;
+                    return null == context.request.session.player;
                 },
                 name: 'redirectLogin'
             }
@@ -109,6 +109,11 @@ module.exports = {
                 scope: 'loginUrl'
             },
             {
+                condition: function(stream) {
+                    console.log('-------', stream);
+
+                    return true;
+                },
                 order: 3,
                 service: 'danf:http.redirector',
                 method: 'redirect',
@@ -125,9 +130,31 @@ module.exports = {
             password: {
                 type: 'string',
                 required: true
+            },
+            origin: {
+                type: 'string',
+                default: 'home'
             }
         },
         operations: [
+            {
+                order: -1,
+                service: 'danf:http.sessionHandler',
+                method: 'set',
+                arguments: [
+                    'player',
+                    null
+                ]
+            },
+            {
+                order: -1,
+                service: 'danf:http.sessionHandler',
+                method: 'set',
+                arguments: [
+                    'loginError',
+                    null
+                ]
+            },
             {
                 order: 0,
                 service: 'passwordEncoder',
@@ -141,11 +168,88 @@ module.exports = {
                 method: 'findOne',
                 arguments: [
                     {
-                        username: '@username@',
-                        password: '@password@'
+                        username: '@username@'
                     }
                 ],
                 scope: 'player'
+            },
+            {
+                order: 2,
+                condition: function(stream) {
+                    return null == stream.player;
+                },
+                service: 'danf:http.sessionHandler',
+                method: 'set',
+                arguments: [
+                    'loginError',
+                    'No player "@username@" found'
+                ]
+            },
+            {
+                order: 3,
+                condition: function(stream) {
+                    return null == stream.player;
+                },
+                service: 'danf:http.redirector',
+                method: 'redirect',
+                arguments: ['!request.url!']
+            },
+            {
+                order: 4,
+                condition: function(stream) {
+                    return stream.player.password !== stream.password;
+                },
+                service: 'danf:http.sessionHandler',
+                method: 'set',
+                arguments: [
+                    'loginError',
+                    'Bad credentials'
+                ]
+            },
+            {
+                order: 5,
+                condition: function(stream) {
+                    return stream.player.password !== stream.password;
+                },
+                service: 'danf:http.redirector',
+                method: 'redirect',
+                arguments: ['!request.url!']
+            },
+            {
+                order: 6,
+                service: 'danf:http.sessionHandler',
+                method: 'set',
+                arguments: [
+                    'player',
+                    '@player@'
+                ]
+            },
+            {
+                order: 7,
+                service: 'danf:http.router',
+                method: 'get',
+                arguments: ['[-]@origin@'],
+                scope: 'originRoute'
+            },
+            {
+                order: 8,
+                service: 'danf:manipulation.proxyExecutor',
+                method: 'execute',
+                arguments: [
+                    '@originRoute@',
+                    'resolve',
+                    {}
+                ],
+                scope: 'originUrl'
+            },
+            {
+                order: 9,
+                service: 'danf:http.redirector',
+                method: 'redirect',
+                arguments: ['@originUrl@']
+            }
+        ]
+    },
     logout: {
         stream: {},
         operations: [
@@ -197,6 +301,10 @@ module.exports = {
             avatar: {
                 type: 'string',
                 required: true
+            },
+            origin: {
+                type: 'string',
+                default: 'home'
             }
         },
         operations: [
@@ -205,7 +313,7 @@ module.exports = {
                 service: 'passwordEncoder',
                 method: 'encode',
                 arguments: ['@password@'],
-                scope: 'password'
+                scope: 'encodedPassword'
             },
             {
                 order: 1,
@@ -214,11 +322,22 @@ module.exports = {
                 arguments: [
                     {
                         username: '@username@',
-                        password: '@password@',
+                        password: '@encodedPassword@',
                         avatar: '@avatar@'
                     }
                 ],
                 scope: 'player'
+            }
+        ],
+        children: [
+            {
+                order: 2,
+                name: 'login',
+                input: {
+                    username: '@username@',
+                    password: '@password@',
+                    origin: '@origin@'
+                }
             }
         ]
     },

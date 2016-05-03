@@ -31,6 +31,28 @@ module.exports = {
         sequences: []
     },
     connect: {
+        parameters: {
+            username: {
+                type: 'string',
+                required: true
+            },
+            password: {
+                type: 'string',
+                required: true
+            },
+            avatar: {
+                type: 'string',
+                default: 'Trundle'
+            },
+            origin: {
+                type: 'string',
+                default: 'home'
+            },
+            mode: {
+                type: 'string',
+                required: true
+            }
+        },
         view: {
             html: {
                 layout: {
@@ -49,7 +71,8 @@ module.exports = {
                 name: 'login',
                 input: {
                     username: '@username@',
-                    password: '@password@'
+                    password: '@password@',
+                    origin: '@origin@'
                 }
             },
             {
@@ -60,6 +83,7 @@ module.exports = {
                 input: {
                     username: '@username@',
                     password: '@password@',
+                    origin: '@origin@',
                     avatar: '@avatar@'
                 }
             }

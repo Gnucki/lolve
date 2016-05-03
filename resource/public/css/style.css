@@ -86,6 +86,10 @@ html, body {
     padding: 20px 0 10px 0;
 }
 
+#body img.avatar {
+    margin-bottom: 20px;
+}
+
 div {
     text-align: center;
 }

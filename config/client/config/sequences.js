@@ -4,11 +4,21 @@
  * @see https://github.com/gnodi/danf/blob/master/resource/private/doc/documentation/core/sequencing.md
  */
 module.exports = {
-    resize: {
+    initializeAvatar: {
         operations: [
             {
-                service: 'sizer',
-                method: 'resize'
+                service: 'selector',
+                method: 'selectAvatar',
+                arguments: ['http://ddragon.leagueoflegends.com/cdn/6.8.1/img/champion/Trundle.png']
+            }
+        ]
+    },
+    selectAvatar: {
+        operations: [
+            {
+                service: 'selector',
+                method: 'selectAvatar',
+                arguments: ['!event.target!']
             }
         ]
     }
