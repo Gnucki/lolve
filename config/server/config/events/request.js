@@ -96,6 +96,13 @@ module.exports = {
             }
         ]
     },
+    player: {
+        sequences: [
+            {
+                name: 'updatePlayer'
+            }
+        ]
+    },
     training: {
         view: {
             html: {

@@ -90,6 +90,39 @@ html, body {
     margin-bottom: 20px;
 }
 
+#player {
+    background-color: #000;
+    display: none;
+    font-size: 0.9;
+    position: relative;
+    top: 15px;
+}
+
+#player .name {
+    margin-right: 35px;
+}
+
+#player .win {
+    margin-right: 10px;
+}
+
+#player .win .quantity {
+    color: #149414;
+}
+
+#player .lose {
+    margin-right: 35px;
+}
+
+#player .lose .quantity {
+    color: #DE2916;
+}
+
+#player .quantity {
+    font-weight: bold;
+    margin-left: 4px;
+}
+
 div {
     text-align: center;
 }

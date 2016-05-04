@@ -21,5 +21,14 @@ module.exports = {
                 arguments: ['!event.target!']
             }
         ]
+    },
+    updatePlayer: {
+        operations: [
+            {
+                service: 'playerFrame',
+                method: 'update',
+                arguments: ['@player@']
+            }
+        ]
     }
 };

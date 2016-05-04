@@ -20,10 +20,19 @@ html
     body
         header
             div(id='header')
-                a(href='/logout', data-ajax='{}')
-                    i(class='fi-power size-36')
                 a(href='/', data-ajax='{}')
                     img(src='/-/gnucki-lolve/img/lolve.png')
+                div(id='player')
+                    a(class='loader', href='/player', data-ajax='{"autoload": 0}')
+                    span(class='name')
+                    span(class='win')
+                        span(class='label') W:
+                        span(class='quantity') 0
+                    span(class='lose')
+                        span(class='label') L:
+                        span(class='quantity') 0
+                    a(class='logout', title='logout', href='/logout', data-ajax='{}')
+                        i(class='fi-power size-36')
         article
             div(id='body')
                 != _view.body

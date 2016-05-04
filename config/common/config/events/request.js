@@ -21,6 +21,10 @@ module.exports = {
         path: '/logout',
         methods: ['GET']
     },
+    player: {
+        path: '/player',
+        methods: ['GET']
+    },
     connect: {
         path: '/login',
         methods: ['POST']

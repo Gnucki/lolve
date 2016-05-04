@@ -109,11 +109,6 @@ module.exports = {
                 scope: 'loginUrl'
             },
             {
-                condition: function(stream) {
-                    console.log('-------', stream);
-
-                    return true;
-                },
                 order: 3,
                 service: 'danf:http.redirector',
                 method: 'redirect',
@@ -226,13 +221,25 @@ module.exports = {
             },
             {
                 order: 7,
+                service: 'danf:tcp.messenger',
+                method: 'emit',
+                arguments: [
+                    '[-]playerUpdate',
+                    {
+                        player: '@player@'
+                    },
+                    '-'
+                ]
+            },
+            {
+                order: 10,
                 service: 'danf:http.router',
                 method: 'get',
                 arguments: ['[-]@origin@'],
                 scope: 'originRoute'
             },
             {
-                order: 8,
+                order: 11,
                 service: 'danf:manipulation.proxyExecutor',
                 method: 'execute',
                 arguments: [
@@ -243,7 +250,7 @@ module.exports = {
                 scope: 'originUrl'
             },
             {
-                order: 9,
+                order: 12,
                 service: 'danf:http.redirector',
                 method: 'redirect',
                 arguments: ['@originUrl@']
@@ -282,6 +289,18 @@ module.exports = {
             },
             {
                 order: 3,
+                service: 'danf:tcp.messenger',
+                method: 'emit',
+                arguments: [
+                    '[-]playerUpdate',
+                    {
+                        player: null
+                    },
+                    '-'
+                ]
+            },
+            {
+                order: 4,
                 service: 'danf:http.redirector',
                 method: 'redirect',
                 arguments: ['@url@']
@@ -338,6 +357,29 @@ module.exports = {
                     password: '@password@',
                     origin: '@origin@'
                 }
+            }
+        ]
+    },
+    updatePlayer: {
+        operations: [
+            {
+                order: 0,
+                service: 'danf:http.sessionHandler',
+                method: 'get',
+                arguments: ['player'],
+                scope: 'player'
+            },
+            {
+                order: 1,
+                service: 'danf:tcp.messenger',
+                method: 'emit',
+                arguments: [
+                    '[-]playerUpdate',
+                    {
+                        player: '@player@'
+                    },
+                    '-'
+                ]
             }
         ]
     },
