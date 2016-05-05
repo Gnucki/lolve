@@ -14,6 +14,7 @@ div(class='row')
                 label(class='label', for='password') Password
                 input(name='password', type='text')
                 input(name='mode', type='hidden', value='login')
+                input(name='origin', type='hidden', value=origin)
                 br
                 input(type='submit', class='hollow button', value='Login')
         div(id='register')
@@ -26,6 +27,7 @@ div(class='row')
                 input(name='password', type='text')
                 input(name='mode', type='hidden', value='registering')
                 input(name='avatar', type='hidden', value='Trundle')
+                input(name='origin', type='hidden', value=origin)
                 label(class='label', for='avatar') Avatar (click on a champion image below to change)
                 img(class='avatar')
                 br
