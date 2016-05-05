@@ -1,1 +1,13 @@
-challenge.jade
+h1 Challenge
+
+p
+    span This is the challenging mode.
+    br
+    span It allows you to challenge your friends.
+
+form(action='/waiting', method='POST', data-ajax='{}')
+    label(class='label', for='username') Username
+    input(name='username', type='text')
+    input(name='mode', type='hidden', value='challenge')
+    br
+    input(type='submit', class='hollow button', value='Challenge')

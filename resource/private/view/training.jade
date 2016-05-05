@@ -1,1 +1,14 @@
-training.jade
+h1 Training
+
+if fighting
+    p You are already fighting !
+    a(href='/fight', class='hollow button', data-ajax='{}') Go
+else
+    p
+        span This is the training mode.
+        br
+        span Take the time to learn the basics vs an AI player.
+
+    form(action='/waiting', method='POST', data-ajax='{}')
+        input(name='mode', type='hidden', value='training')
+        input(type='submit', class='hollow button', value='Train')
