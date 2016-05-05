@@ -33,12 +33,20 @@ module.exports = {
         path: '/training',
         methods: ['GET']
     },
-    fight: {
-        path: '/fight',
+    competition: {
+        path: '/competition',
         methods: ['GET']
     },
     challenge: {
         path: '/challenge',
+        methods: ['GET']
+    },
+    waiting: {
+        path: '/waiting',
+        methods: ['POST']
+    },
+    fight: {
+        path: '/fight',
         methods: ['GET']
     },
     champions: {

@@ -21,8 +21,43 @@ module.exports = {
                         }
                     }
                 },
-                games: {
+                waiters: {
                     document: {
+                        player: {
+                            type: 'string',
+                            required: true
+                        },
+                        waiting: {
+                            type: 'string'
+                        }
+                    }
+                },
+                fights: {
+                    document: {
+                        player1: {
+                            type: 'string',
+                            required: true
+                        },
+                        player2: {
+                            type: 'string',
+                            required: true
+                        },
+                        competitive: {
+                            type: 'boolean',
+                            required: true
+                        }
+                    }
+                },
+                competitions: {
+                    document: {
+                        player1: {
+                            type: 'string',
+                            required: true
+                        },
+                        player2: {
+                            type: 'string',
+                            required: true
+                        }
                     }
                 }
             }

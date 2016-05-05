@@ -18,6 +18,12 @@ module.exports = {
         sequences: []
     },
     login: {
+        parameters: {
+            origin: {
+                type: 'string',
+                default: 'home'
+            }
+        },
         view: {
             html: {
                 layout: {
@@ -118,17 +124,24 @@ module.exports = {
             {
                 order: 0,
                 name: 'checkLogin'
+            },
+            {
+                order: 1,
+                name: 'checkFighting',
+                output: {
+                    fighting: '@fighting@'
+                }
             }
         ]
     },
-    fight: {
+    competition: {
         view: {
             html: {
                 layout: {
                     file: '%view.path%/layout.jade'
                 },
                 body: {
-                    file: '%view.path%/fight.jade'
+                    file: '%view.path%/competition.jade'
                 }
             }
         },
@@ -136,6 +149,13 @@ module.exports = {
             {
                 order: 0,
                 name: 'checkLogin'
+            },
+            {
+                order: 1,
+                name: 'checkFighting',
+                output: {
+                    fighting: '@fighting@'
+                }
             }
         ]
     },
@@ -147,6 +167,53 @@ module.exports = {
                 },
                 body: {
                     file: '%view.path%/challenge.jade'
+                }
+            }
+        },
+        sequences: [
+            {
+                order: 0,
+                name: 'checkLogin'
+            },
+            {
+                order: 1,
+                name: 'checkFighting',
+                output: {
+                    fighting: '@fighting@'
+                }
+            }
+        ]
+    },
+    waiting: {
+        parameters: {
+            for: {
+                type: 'string',
+                default: null
+            },
+            mode: {
+                type: 'string',
+                required: true
+            }
+        },
+        sequences: [
+            {
+                order: 0,
+                name: 'wait',
+                input: {
+                    for: '@for@',
+                    mode: '@mode@'
+                }
+            }
+        ]
+    },
+    fight: {
+        view: {
+            html: {
+                layout: {
+                    file: '%view.path%/layout.jade'
+                },
+                body: {
+                    file: '%view.path%/fight.jade'
                 }
             }
         },

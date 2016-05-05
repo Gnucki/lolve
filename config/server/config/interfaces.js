@@ -6,13 +6,31 @@
 module.exports = {
     dataContainer: {
         methods: {
-            load: {}
+            load: {},
+            getWaiters: {},
+            getFights: {}
         }
     },
     encoder: {
         methods: {
             encode: {
                 arguments: ['string/data']
+            }
+        }
+    },
+    matcher: {
+        methods: {
+            process: {},
+            match: {
+                arguments: ['object/waiters']
+            }
+        }
+    },
+    fightProcessor: {
+        methods: {
+            process: {},
+            fight: {
+                arguments: ['object/fights']
             }
         }
     },
