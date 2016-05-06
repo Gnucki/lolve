@@ -18,5 +18,21 @@ module.exports = {
                 }
             }
         ]
+    },
+    fightProcessing: {
+        data: {
+            fight: {
+                type: 'object',
+                required: true
+            }
+        },
+        sequences: [
+            {
+                name: 'processFight',
+                input: {
+                    fight: '@fight@'
+                }
+            }
+        ]
     }
 };

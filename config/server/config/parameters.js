@@ -24,6 +24,9 @@ module.exports = {
                 },
                 staticData: {
                     version: 'v1.2'
+                },
+                summoner: {
+                    version: 'v1.4'
                 }
             }
         }

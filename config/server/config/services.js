@@ -26,7 +26,8 @@ module.exports = {
         properties: {
             app: '#danf:app#',
             logger: '#danf:logging.logger#',
-            fightSequence: '#danf:sequencing.sequencesContainer[fight]#'
+            fightSequence: '#danf:sequencing.sequencesContainer[fight]#',
+            dataContainer: '#dataContainer#'
         }
     },
     passwordEncoder: {

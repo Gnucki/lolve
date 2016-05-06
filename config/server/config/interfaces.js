@@ -7,6 +7,7 @@ module.exports = {
     dataContainer: {
         methods: {
             load: {},
+            getSummoners: {},
             getWaiters: {},
             getFights: {}
         }

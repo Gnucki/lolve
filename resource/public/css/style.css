@@ -22,6 +22,10 @@ html, body {
     text-align: center;
 }
 
+#fight-link {
+    display: none;
+}
+
 #footer {
     background-color: #000;
     border-top: 1px solid #222;
@@ -125,4 +129,40 @@ html, body {
 
 div {
     text-align: center;
+}
+
+#fight .player {
+    background-color: #000;
+    text-shadow: 0 0 1em #000, 0 0 0.2em #000;
+    font-size: 1.2em;
+    font-weight: bold;
+    height: 120px;
+    line-height: 120px;
+    width: 120px;
+}
+
+#fight .summoner {
+    background-color: #000;
+    border-bottom: 1px solid #444;
+    height: 80px;
+    width: 80px;
+}
+
+#fight .player1 .player {
+    border: 1px solid #FFCC00;
+    color: #FFCC00;
+}
+
+#fight .player2 .player {
+    border: 1px solid #00CCFF;
+    color: #00CCFF;
+}
+
+#fight .player2 .summoner {
+    margin-left: 40px;
+}
+
+#fight .game {
+    background-color: #000;
+    min-height: 520px;
 }

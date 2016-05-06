@@ -59,6 +59,9 @@ module.exports = {
                             required: true
                         }
                     }
+                },
+                summoners: {
+                    document: {}
                 }
             }
         }

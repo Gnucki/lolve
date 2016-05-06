@@ -231,7 +231,172 @@ module.exports = {
                 method: 'match',
                 arguments: [
                     '@waiters@'
+                ],
+                scope: 'fights'
+            },
+            {
+                order: 2,
+                condition: function(stream) {
+                    return 0 !== stream.fights.length;
+                },
+                service: 'gnuckiMongodb:db.main.collection.fights',
+                method: 'insertMany',
+                arguments: ['@fights@']
+            }
+        ],
+        children: [
+            {
+                order: 10,
+                name: 'startFight',
+                input: {
+                    fight: '@@.@@'
+                },
+                collection: {
+                    input: '@fights@',
+                    method: '||'
+                }
+            }
+        ]
+    },
+    startFight: {
+        stream: {
+            fight: {
+                type: 'object',
+                required: true
+            }
+        },
+        operations: [
+            {
+                order: 0,
+                service: 'gnuckiMongodb:db.main.collection.waiters',
+                method: 'deleteMany',
+                arguments: [
+                    {
+                        player: '@fight.player1@'
+                    }
                 ]
+            },
+            {
+                order: 0,
+                service: 'gnuckiMongodb:db.main.collection.waiters',
+                method: 'deleteMany',
+                arguments: [
+                    {
+                        player: '@fight.player2@'
+                    }
+                ]
+            }
+        ],
+        children: [
+            {
+                order: 0,
+                name: 'notifyFightProcessing',
+                input: {
+                    fight: '@fight@'
+                }
+            }
+        ]
+    },
+    notifyFightProcessing: {
+        stream: {
+            fight: {
+                type: 'object',
+                required: true
+            }
+        },
+        operations: [
+            {
+                order: 0,
+                service: 'gnuckiMongodb:db.main.collection.players',
+                method: 'findOne',
+                arguments: [
+                    {
+                        username: '@fight.player1@'
+                    }
+                ],
+                scope: 'fight.player1'
+            },
+            {
+                order: 0,
+                service: 'gnuckiMongodb:db.main.collection.players',
+                method: 'findOne',
+                arguments: [
+                    {
+                        username: '@fight.player2@'
+                    }
+                ],
+                scope: 'fight.player2'
+            },
+            {
+                order: 1,
+                service: 'danf:tcp.messenger',
+                method: 'emit',
+                arguments: [
+                    '[-]fightProcessing',
+                    {
+                        fight: '@fight@'
+                    },
+                    ['@fight.player1.username@', '@fight.player2.username@']
+                ]
+            }
+        ]
+    },
+    loadFight: {
+        operations: [
+            {
+                order: 0,
+                service: 'danf:http.sessionHandler',
+                method: 'get',
+                arguments: [
+                    'player'
+                ],
+                scope: 'player'
+            },
+            {
+                order: 1,
+                service: 'danf:manipulation.callbackExecutor',
+                method: 'execute',
+                arguments: [
+                    function(player, username) {
+                        return player
+                            ? player.username
+                            : username
+                        ;
+                    },
+                    '@player@',
+                    '@username@'
+                ],
+                scope: 'username'
+            },
+            {
+                order: 2,
+                service: 'gnuckiMongodb:db.main.collection.fights',
+                method: 'findOne',
+                arguments: [
+                    {
+                        $or: [
+                            {player1: '@username@'},
+                            {player2: '@username@'}
+                        ]
+                    }
+                ],
+                scope: 'fight'
+            }
+        ],
+        children: [
+            {
+                order: -1,
+                name: 'joinPlayerRoom'
+            },
+            {
+                order: 10,
+                condition: function(stream) {
+                    return !!stream.fight;
+                },
+                name: 'notifyFightProcessing',
+                input: {
+                    fight: '@fight@'
+                }
             }
         ]
     },
@@ -249,7 +414,34 @@ module.exports = {
                 method: 'fight',
                 arguments: [
                     '@fights@'
-                ]
+                ],
+                scope: 'processedFights'
+            },
+            {
+                order: 2,
+                service: 'gnuckiMongodb:db.main.collection.fights',
+                method: 'updateOne',
+                arguments: [
+                    {_id: '@@_id@@'},
+                    '@@.@@'
+                ],
+                collection: {
+                    input: '@processedFights@',
+                    method: '||'
+                }
+            }
+        ],
+        children: [
+            {
+                order: 10,
+                name: 'notifyFightProcessing',
+                input: {
+                    fight: '@@.@@'
+                },
+                collection: {
+                    input: '@processedFights@',
+                    method: '||'
+                }
             }
         ]
     },
@@ -262,10 +454,29 @@ module.exports = {
         children: [
             {
                 order: 0,
+                name: 'joinPlayerRoom'
+            },
+            {
+                order: 1,
                 condition: function(stream, context) {
                     return null == context.request.session.player;
                 },
                 name: 'redirectLogin'
+            }
+        ]
+    },
+    joinPlayerRoom: {
+        operations: [
+            {
+                order: 0,
+                condition: function(stream, context) {
+                    return null != context.request.session.player;
+                },
+                service: 'danf:tcp.messenger',
+                method: 'joinRoom',
+                arguments: [
+                    '!request.session.player.username!'
+                ]
             }
         ]
     },
@@ -437,6 +648,14 @@ module.exports = {
                 ]
             },
             {
+                order: 8,
+                service: 'danf:tcp.messenger',
+                method: 'joinRoom',
+                arguments: [
+                    '@player.username@'
+                ]
+            },
+            {
                 order: 10,
                 service: 'danf:http.router',
                 method: 'get',
@@ -587,7 +806,7 @@ module.exports = {
         ],
         children: [
             {
-                order: 2,
+                order: 20,
                 name: 'login',
                 input: {
                     username: '@username@',
@@ -626,6 +845,28 @@ module.exports = {
      *
      */
     load: {
+        operations: [
+            {
+                order: 0,
+                service: 'dataContainer',
+                method: 'getSummoners',
+                scope: 'summoners'
+            }
+        ],
+        children: [
+            {
+                order: 1,
+                condition: function(stream) {
+                    return 0 === stream.summoners.length;
+                },
+                name: 'loadSummoners',
+                output: {
+                    summoners: '@summoners@'
+                }
+            }
+        ]
+    },
+    loadSummoners: {
         operations: [
             {
                 order: 0,
@@ -675,15 +916,39 @@ module.exports = {
                 arguments: [
                     '[-]lolApi.game.summonerRecent'
                 ],
-                scope: 'route'
+                scope: 'routes.game'
+            },
+            {
+                order: 2,
+                service: 'danf:http.router',
+                method: 'get',
+                arguments: [
+                    '[-]lolApi.summoner.summoner'
+                ],
+                scope: 'routes.summoner'
+            },
+            {
+                order: 2,
+                service: 'danf:http.router',
+                method: 'get',
+                arguments: [
+                    '[-]lolApi.championmastery.topchampions'
+                ],
+                scope: 'routes.championmastery'
+            },
+            {
+                order: 20,
+                service: 'gnuckiMongodb:db.main.collection.summoners',
+                method: 'insertMany',
+                arguments: ['@summoners@']
             }
         ],
         children: [
             {
-                order: 3,
+                order: 10,
                 name: 'loadSummoner',
                 input: {
-                    route: '@route@',
+                    routes: '@routes@',
                     summoner: '@@.@@'
                 },
                 collection: {
@@ -715,7 +980,7 @@ module.exports = {
                 service: 'danf:manipulation.proxyExecutor',
                 method: 'execute',
                 arguments: [
-                    '@route@',
+                    '@routes.game@',
                     'follow',
                     {
                         api_key: '%lol.api.key%',
@@ -728,6 +993,45 @@ module.exports = {
                     }
                 ],
                 scope: 'games'
+            },
+            {
+                order: 0,
+                service: 'danf:manipulation.proxyExecutor',
+                method: 'execute',
+                arguments: [
+                    '@routes.summoner@',
+                    'follow',
+                    {
+                        api_key: '%lol.api.key%',
+                        region: 'euw',
+                        summoner: '@summoner.playerOrTeamId@'
+                    },
+                    {},
+                    {
+                        protocol: '%lol.api.protocol%'
+                    }
+                ],
+                scope: 'info'
+            },
+            {
+                order: 0,
+                service: 'danf:manipulation.proxyExecutor',
+                method: 'execute',
+                arguments: [
+                    '@routes.championmastery@',
+                    'follow',
+                    {
+                        api_key: '%lol.api.key%',
+                        platform: 'euw1',
+                        player: '@summoner.playerOrTeamId@',
+                        count: 20
+                    },
+                    {},
+                    {
+                        protocol: '%lol.api.protocol%'
+                    }
+                ],
+                scope: 'championmastery'
             },
             {
                 order: 1,
@@ -748,6 +1052,29 @@ module.exports = {
                 method: 'determine',
                 arguments: ['@summoner@', '@games.games@'],
                 scope: 'summoner.role'
+            },
+            {
+                order: 3,
+                service: 'danf:manipulation.callbackExecutor',
+                method: 'execute',
+                arguments: [
+                    function(summoner, info, championmastery) {
+                        info = JSON.parse(info);
+                        info = info[summoner.playerOrTeamId];
+
+                        for (var key in info) {
+                            summoner[key] = info[key];
+                        }
+
+                        summoner.championmastery = JSON.parse(championmastery);
+
+                        return summoner;
+                    },
+                    '@summoner@',
+                    '@info@',
+                    '@championmastery@'
+                ],
+                scope: 'summoner'
             }
         ]
     },

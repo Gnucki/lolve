@@ -10,7 +10,12 @@ module.exports = {
         methods: ['GET'],
         children: {
             topchampions: {
-                path: '/topchampions'
+                path: '/topchampions',
+                parameters: {
+                    count: {
+                        type: 'number'
+                    }
+                }
             }
         }
     },
@@ -40,6 +45,16 @@ module.exports = {
         children: {
             champion: {
                 path: '/champion'
+            }
+        }
+    },
+    summoner: {
+        host: 'euw.api.pvp.net:443',
+        path: '/api/lol/:region/%lol.api.chunks.summoner.version%/summoner',
+        methods: ['GET'],
+        children: {
+            summoner: {
+                path: '/:summoner'
             }
         }
     }
