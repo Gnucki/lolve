@@ -37,6 +37,13 @@ module.exports = {
             fight: {
                 arguments: ['object/fights']
             },
+            chooseSummoner:  {
+                arguments: [
+                    'number/number',
+                    'object/fight',
+                    'object/player'
+                ]
+            },
             render:  {
                 arguments: ['object/fight']
             }

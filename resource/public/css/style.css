@@ -169,6 +169,7 @@ div {
 
 #fight .game .summoner {
     border: 1px solid #000;
+    cursor: pointer;
 }
 
 #fight .game .summoner.selected {
@@ -193,7 +194,7 @@ div {
     display: inline-block;
     text-align: left;
     position: relative;
-    width: 90%;
+    width: 85%;
 }
 
 #fight .game .champion .mastery-bar {
@@ -208,4 +209,24 @@ div {
 
 #fight .game .summoner-detail {
     display: none;
+}
+
+#fight .game .summoner-detail button {
+    margin-top: 15px;
+}
+
+#fight .game .summoner-detail button strong {
+    font-weight: bold;
+}
+
+#fight .countdown {
+    font-size: 2.5em;
+    font-weight: bold;
+}
+
+#fight .order {
+    color: #FFCC00;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-shadow: 0 0 1em #000, 0 0 0.2em #000;
 }

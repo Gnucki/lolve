@@ -7,7 +7,8 @@ module.exports = {
     fightProcessor: {
         class: 'fightProcessor',
         properties: {
-            jquery: '#danf:vendor.jquery#'
+            jquery: '#danf:vendor.jquery#',
+            messenger: '#danf:tcp.messenger#'
         }
     },
     playerFrame: {

@@ -10,9 +10,9 @@
         div(class='summoners column small-12')
             each summoner in phase.summoners
                 img(class='summoner', src='http://ddragon.leagueoflegends.com/cdn/6.9.1/img/profileicon/' + summoner.icon + '.png', data-summoner=JSON.stringify(summoner))
-        each summoner in phase.summoners
+        each summoner, index in phase.summoners
             div(class='summoner-detail column small-12', data-summoner=JSON.stringify(summoner))
-                h2= summoner.name
+                button(class='button hollow', data-number=index)!= 'Take <strong>' + summoner.name + '</strong> in my team'
                 each championmastery in summoner.champions
                     - var champion = champions[championmastery.championId]
                     - var pointsPercent = championmastery.championPoints * 100 / maxPoints

@@ -19,5 +19,25 @@ module.exports = {
                 }
             }
         ]
+    },
+    summonerChoice: {
+        data: {
+            number: {
+                type: 'number',
+                required: true
+            }
+        },
+        sequences: [
+            {
+                name: 'chooseSummoner',
+                condition: function(stream, context) {
+                    console.log('----', context.request.session);
+                    return null != context.request.session.player;
+                },
+                input: {
+                    number: '@number@'
+                }
+            }
+        ]
     }
 };

@@ -452,6 +452,68 @@ module.exports = {
             }
         ]
     },
+    chooseSummoner: {
+        stream: {
+            number: {
+                type: 'number',
+                required: true
+            }
+        },
+        operations: [
+            {
+                order: 1,
+                service: 'fightProcessor',
+                method: 'chooseSummoner',
+                arguments: [
+                    '@number@',
+                    '@fight@',
+                    '!request.session.player!'
+                ],
+                scope: 'fight'
+            },
+            {
+                order: 2,
+                condition: function(stream) {
+                    return !!stream.fight;
+                },
+                service: 'gnuckiMongodb:db.main.collection.fights',
+                method: 'updateOne',
+                arguments: [
+                    {_id: '@fight._id@'},
+                    '@fight@'
+                ]
+            }
+        ],
+        children: [
+            {
+                order: 0,
+                name: 'loadFight',
+                input: {
+                    username: ''
+                },
+                output: {
+                    fight: '@fight@'
+                }
+            },
+            {
+                order: 10,
+                name: 'loadFight',
+                input: {
+                    username: ''
+                },
+                output: {
+                    fight: '@fight@'
+                }
+            },
+            {
+                order: 11,
+                name: 'notifyFightProcessing',
+                input: {
+                    fight: '@fight@'
+                }
+            }
+        ]
+    },
     /*
      *
      * Connection.
