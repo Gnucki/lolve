@@ -166,3 +166,46 @@ div {
     background-color: #000;
     min-height: 520px;
 }
+
+#fight .game .summoner {
+    border: 1px solid #000;
+}
+
+#fight .game .summoner.selected {
+    border: 1px solid #FFCC00;
+}
+
+#fight .game .champion img {
+    display: inline-block;
+    float: left;
+    height: 40px;
+    width: 40px;
+}
+
+#fight .game .champion {
+    position: relative;
+    text-align: left;
+    height: 40px;
+    width: 100%;
+}
+
+#fight .game .champion .mastery {
+    display: inline-block;
+    text-align: left;
+    position: relative;
+    width: 90%;
+}
+
+#fight .game .champion .mastery-bar {
+    background: #444; /* Old browsers */
+    background: -moz-linear-gradient(left, #000000 0%, #ff6e30 50%, #ffff00 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #000000 0%,#ff6e30 50%,#ffff00 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #000000 0%,#ff6e30 50%,#ffff00 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    border-bottom: 1px solid #444;
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#ffff00',GradientType=1 ); /* IE6-9 */
+    height: 40px;
+}
+
+#fight .game .summoner-detail {
+    display: none;
+}

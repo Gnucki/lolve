@@ -1,0 +1,25 @@
+- if (fight.phase.name == 'top' || fight.phase.name == 'jungle' || fight.phase.name == 'middle' || fight.phase.name == 'carry' || fight.phase.name == 'support')
+    - var phase = fight.phases[fight.phase.name]
+    - var maxPoints = 0
+
+    each summoner in phase.summoners
+        each championmastery in summoner.champions
+            - maxPoints = Math.max(maxPoints, championmastery.championPoints)
+
+    div(class='row')
+        div(class='summoners column small-12')
+            each summoner in phase.summoners
+                img(class='summoner', src='http://ddragon.leagueoflegends.com/cdn/6.9.1/img/profileicon/' + summoner.icon + '.png', data-summoner=JSON.stringify(summoner))
+        each summoner in phase.summoners
+            div(class='summoner-detail column small-12', data-summoner=JSON.stringify(summoner))
+                h2= summoner.name
+                each championmastery in summoner.champions
+                    - var champion = champions[championmastery.championId]
+                    - var pointsPercent = championmastery.championPoints * 100 / maxPoints
+
+                    div(class='champion')
+                        img(class='champion', src='http://ddragon.leagueoflegends.com/cdn/6.8.1/img/champion/' + champion.key + '.png')
+                        div(class='mastery')
+                            div(class='mastery-bar', style='width: ' + pointsPercent + '%;')
+- else
+    p Fight !

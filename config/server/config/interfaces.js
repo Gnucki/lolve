@@ -8,6 +8,10 @@ module.exports = {
         methods: {
             load: {},
             getSummoners: {},
+            getChampions: {
+                arguments: ['boolean/indexed'],
+                returns: 'object|array'
+            },
             getWaiters: {},
             getFights: {}
         }
@@ -32,6 +36,9 @@ module.exports = {
             process: {},
             fight: {
                 arguments: ['object/fights']
+            },
+            render:  {
+                arguments: ['object/fight']
             }
         }
     },

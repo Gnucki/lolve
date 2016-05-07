@@ -329,6 +329,13 @@ module.exports = {
             },
             {
                 order: 1,
+                service: 'fightProcessor',
+                method: 'render',
+                arguments: ['@fight@'],
+                scope: 'fight.game'
+            },
+            {
+                order: 10,
                 service: 'danf:tcp.messenger',
                 method: 'emit',
                 arguments: [
@@ -862,6 +869,13 @@ module.exports = {
                 name: 'loadSummoners',
                 output: {
                     summoners: '@summoners@'
+                }
+            },
+            {
+                order: 1,
+                name: 'loadChampions',
+                output: {
+                    champions: '@champions.data@'
                 }
             }
         ]
