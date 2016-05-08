@@ -5,11 +5,11 @@ p
     br
     span It allows you to challenge your friends
     br
-    span(class='info') enter the name of your opponent and ask him to do the same
+    span(class='info') enter the name of your opponent and click the challenge button and ask him to do the same
 
 form(action='/waiting', method='POST', data-ajax='{}')
-    label(class='label', for='username') Username
-    input(name='username', type='text')
+    label(class='label', for='for') Username
+    input(name='for', type='text')
     input(name='mode', type='hidden', value='challenge')
     br
     input(type='submit', class='hollow button', value='Challenge')

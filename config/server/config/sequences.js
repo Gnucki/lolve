@@ -73,7 +73,8 @@ module.exports = {
     wait: {
         stream: {
             for: {
-                type: 'string'
+                type: 'string',
+                default: ''
             },
             mode: {
                 type: 'string',
@@ -126,17 +127,17 @@ module.exports = {
                 condition: function(stream) {
                     return 'competition' === stream.mode;
                 },
-                name: 'waitCompetition',
-                input: {
-                    for: '@for@'
-                }
+                name: 'waitCompetition'
             },
             {
                 order: 1,
                 condition: function(stream) {
                     return 'challenge' === stream.mode;
                 },
-                name: 'waitChallenge'
+                name: 'waitChallenge',
+                input: {
+                    for: '@for@'
+                }
             }
         ]
     },
