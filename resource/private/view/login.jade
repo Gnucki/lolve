@@ -8,11 +8,14 @@ div(class='row')
         div(id='login')
             p Login !
 
+            - if (errors.login)
+                div(class='error')= errors.login
+
             form(action='/login', method='POST', data-ajax='{}')
                 label(class='label', for='username') Username
                 input(name='username', type='text')
                 label(class='label', for='password') Password
-                input(name='password', type='text')
+                input(name='password', type='password')
                 input(name='mode', type='hidden', value='login')
                 input(name='origin', type='hidden', value=origin)
                 br
@@ -20,11 +23,14 @@ div(class='row')
         div(id='register')
             p No account yet ? Register !
 
+            - if (errors.register)
+                div(class='error')= errors.register
+
             form(action='/login', method='POST', data-ajax='{}')
                 label(class='label', for='username') Username
                 input(name='username', type='text')
                 label(class='label', for='password') Password
-                input(name='password', type='text')
+                input(name='password', type='password')
                 input(name='mode', type='hidden', value='registering')
                 input(name='avatar', type='hidden', value='Trundle')
                 input(name='origin', type='hidden', value=origin)

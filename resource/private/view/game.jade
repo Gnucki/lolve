@@ -1,26 +1,38 @@
-- if (fight.phase.name == 'top' || fight.phase.name == 'jungle' || fight.phase.name == 'middle' || fight.phase.name == 'carry' || fight.phase.name == 'support')
-    - var phase = fight.phases[fight.phase.name]
-    - var maxPoints = 0
+- if (fight.phase)
+    - if (fight.phase.name == 'top' || fight.phase.name == 'jungle' || fight.phase.name == 'middle' || fight.phase.name == 'carry' || fight.phase.name == 'support')
+        - var phase = fight.phases[fight.phase.name]
+        - var maxPoints = 0
 
-    each summoner in phase.summoners
-        each championmastery in summoner.champions
-            - maxPoints = Math.max(maxPoints, championmastery.championPoints)
+        each summoner in phase.summoners
+            each championmastery in summoner.champions
+                - maxPoints = Math.max(maxPoints, championmastery.championPoints)
 
-    div(class='row')
-        div(class='summoners column small-12')
-            each summoner in phase.summoners
-                img(class='summoner', src='http://ddragon.leagueoflegends.com/cdn/6.9.1/img/profileicon/' + summoner.icon + '.png', data-summoner=JSON.stringify(summoner))
-        each summoner, index in phase.summoners
-            div(class='summoner-detail column small-12', data-summoner=JSON.stringify(summoner))
-                button(class='button hollow', data-number=index)!= 'Take <strong>' + summoner.name + '</strong> in my team'
-                each championmastery in summoner.champions
-                    - var champion = champions[championmastery.championId]
-                    - var pointsPercent = championmastery.championPoints * 100 / maxPoints
+        div(class='row')
+            div(class='summoners columns small-12')
+                each summoner in phase.summoners
+                    img(class='summoner', src='http://ddragon.leagueoflegends.com/cdn/6.9.1/img/profileicon/' + summoner.icon + '.png', data-summoner=JSON.stringify(summoner))
+            each summoner, index in phase.summoners
+                div(class='summoner-detail columns small-12', data-summoner=JSON.stringify(summoner))
+                    button(class='button hollow', data-number=index)!= 'Take <strong>' + summoner.name + '</strong> in my team'
+                    each championmastery in summoner.champions
+                        - var champion = champions[championmastery.championId]
+                        - var pointsPercent = championmastery.championPoints * 100 / maxPoints
 
-                    div(class='champion')
-                        img(class='champion', src='http://ddragon.leagueoflegends.com/cdn/6.8.1/img/champion/' + champion.key + '.png')
-                        div(class='mastery')
-                            div(class='mastery-bar', style='width: ' + pointsPercent + '%;')
+                        div(class='champion')
+                            img(class='champion', src='http://ddragon.leagueoflegends.com/cdn/6.8.1/img/champion/' + champion.key + '.png')
+                            div(class='mastery')
+                                div(class='mastery-bar', style='width: ' + pointsPercent + '%;')
+    - else
+        div(class='fight')
+            each lane, laneName in fight.fight.player1.lanes
+                div(class='line row lane ' + laneName)
+                    div(class='line-item score1 score columns small-4') &nbsp
+                    div(class='img columns small-4')
+                    div(class='line-item score2 score columns small-4') &nbsp
+        div(class='line')
+            div(class='line-item result win') WIN
+        div(class='line')
+            div(class='line-item result lose') DEFEAT
+        a(class='back-home button hollow', href='/', data-ajax='{}') OK
 - else
-    div(class='result win') Win !
-    div(class='result lose') Loose !
+    div(class='waiting') Waiting for the fight to start...

@@ -15,7 +15,11 @@ module.exports = {
                 }
             }
         },
-        sequences: []
+        sequences: [
+            {
+                name: 'updatePlayer'
+            }
+        ]
     },
     login: {
         parameters: {
@@ -34,7 +38,14 @@ module.exports = {
                 }
             }
         },
-        sequences: []
+        sequences: [
+            {
+                name: 'getLoginErrors',
+                output: {
+                    errors: '@errors@'
+                }
+            }
+        ]
     },
     connect: {
         parameters: {

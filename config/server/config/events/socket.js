@@ -5,18 +5,9 @@
  */
 module.exports = {
     fightLoading: {
-        /*data: {
-            username: {
-                type: 'string',
-                default: ''
-            }
-        },*/
         sequences: [
             {
-                name: 'loadFight'/*,
-                input: {
-                    username: ''
-                }*/
+                name: 'loadFight'
             }
         ]
     },

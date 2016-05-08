@@ -447,7 +447,7 @@ module.exports = {
         children: [
             {
                 order: 10,
-                name: 'notifyFightProcessing',
+                name: 'notifyFight',
                 input: {
                     fight: '@@.@@'
                 },
@@ -469,6 +469,26 @@ module.exports = {
             }
         ]
     },
+    notifyFight: {
+        stream: {
+            fight: {
+                type: 'object',
+                required: true
+            }
+        },
+        children: [
+            {
+                order: 0,
+                condition: function(stream) {
+                    return !stream.fight.ended;
+                },
+                name: 'notifyFightProcessing',
+                input: {
+                    fight: '@fight@'
+                }
+            }
+        ]
+    },
     purgeFight: {
         stream: {
             fight: {
@@ -479,6 +499,69 @@ module.exports = {
         operations: [
             {
                 order: 0,
+                condition: function(stream) {
+                    return stream.fight.ended && stream.fight.competitive && stream.fight.fight.player1.win;
+                },
+                service: 'gnuckiMongodb:db.main.collection.players',
+                method: 'updateOne',
+                arguments: [
+                    {username: '@fight.player1@'},
+                    {'$inc': {wins: 1}}
+                ],
+                scope: 'player'
+            },
+            {
+                order: 0,
+                condition: function(stream) {
+                    return stream.fight.ended && stream.fight.competitive && !stream.fight.fight.player1.win;
+                },
+                service: 'gnuckiMongodb:db.main.collection.players',
+                method: 'updateOne',
+                arguments: [
+                    {username: '@fight.player1@'},
+                    {'$inc': {defeats: 1}}
+                ],
+                scope: 'player'
+            },
+            {
+                order: 0,
+                condition: function(stream) {
+                    return stream.fight.ended && stream.fight.competitive && stream.fight.fight.player2.win;
+                },
+                service: 'gnuckiMongodb:db.main.collection.players',
+                method: 'updateOne',
+                arguments: [
+                    {username: '@fight.player2@'},
+                    {'$inc': {wins: 1}}
+                ],
+                scope: 'player'
+            },
+            {
+                order: 0,
+                condition: function(stream) {
+                    return stream.fight.ended && stream.fight.competitive && !stream.fight.fight.player2.win;
+                },
+                service: 'gnuckiMongodb:db.main.collection.players',
+                method: 'updateOne',
+                arguments: [
+                    {username: '@fight.player2@'},
+                    {'$inc': {defeats: 1}}
+                ],
+                scope: 'player'
+            },
+            {
+                order: 10,
+                condition: function(stream) {
+                    return stream.fight.ended && stream.fight.competitive;
+                },
+                service: 'gnuckiMongodb:db.main.collection.competitions',
+                method: 'insertOne',
+                arguments: [
+                    '@fight@'
+                ]
+            },
+            {
+                order: 10,
                 condition: function(stream) {
                     return stream.fight.ended;
                 },
@@ -594,9 +677,17 @@ module.exports = {
         ]
     },
     redirectLogin: {
+        stream: {
+            origin: {
+                type: 'string'
+            }
+        },
         operations: [
             {
                 order: 0,
+                condition: function(stream) {
+                    return null == stream.origin;
+                },
                 service: 'danf:http.router',
                 method: 'find',
                 arguments: [
@@ -614,6 +705,9 @@ module.exports = {
             },
             {
                 order: 1,
+                condition: function(stream) {
+                    return null == stream.origin;
+                },
                 service: 'danf:manipulation.callbackExecutor',
                 method: 'execute',
                 arguments: [
@@ -680,6 +774,15 @@ module.exports = {
                 ]
             },
             {
+                order: -1,
+                service: 'danf:http.sessionHandler',
+                method: 'set',
+                arguments: [
+                    'registerError',
+                    null
+                ]
+            },
+            {
                 order: 0,
                 service: 'passwordEncoder',
                 method: 'encode',
@@ -711,15 +814,11 @@ module.exports = {
             },
             {
                 order: 3,
-                condition: function(stream) {
-                    return null == stream.player;
-                },
-                service: 'danf:http.redirector',
-                method: 'redirect',
-                arguments: ['!request.url!']
+                service: 'danf:http.sessionHandler',
+                method: 'save'
             },
             {
-                order: 4,
+                order: 10,
                 condition: function(stream) {
                     return stream.player.password !== stream.password;
                 },
@@ -731,16 +830,7 @@ module.exports = {
                 ]
             },
             {
-                order: 5,
-                condition: function(stream) {
-                    return stream.player.password !== stream.password;
-                },
-                service: 'danf:http.redirector',
-                method: 'redirect',
-                arguments: ['!request.url!']
-            },
-            {
-                order: 6,
+                order: 12,
                 service: 'danf:http.sessionHandler',
                 method: 'set',
                 arguments: [
@@ -749,7 +839,7 @@ module.exports = {
                 ]
             },
             {
-                order: 7,
+                order: 13,
                 service: 'danf:tcp.messenger',
                 method: 'emit',
                 arguments: [
@@ -761,7 +851,7 @@ module.exports = {
                 ]
             },
             {
-                order: 8,
+                order: 14,
                 service: 'danf:tcp.messenger',
                 method: 'joinRoom',
                 arguments: [
@@ -769,14 +859,14 @@ module.exports = {
                 ]
             },
             {
-                order: 10,
+                order: 20,
                 service: 'danf:http.router',
                 method: 'get',
                 arguments: ['[-]@origin@'],
                 scope: 'originRoute'
             },
             {
-                order: 11,
+                order: 21,
                 service: 'danf:manipulation.proxyExecutor',
                 method: 'execute',
                 arguments: [
@@ -787,10 +877,62 @@ module.exports = {
                 scope: 'originUrl'
             },
             {
-                order: 12,
+                order: 22,
                 service: 'danf:http.redirector',
                 method: 'redirect',
                 arguments: ['@originUrl@']
+            }
+        ],
+        children: [
+            {
+                order: 4,
+                condition: function(stream) {
+                    return null == stream.player;
+                },
+                name: 'redirectLogin',
+                input: {
+                    origin: '@origin@'
+                }
+            },
+            {
+                order: 11,
+                condition: function(stream) {
+                    return stream.player.password !== stream.password;
+                },
+                name: 'redirectLogin',
+                input: {
+                    origin: '@origin@'
+                }
+            }
+        ]
+    },
+    getLoginErrors: {
+        operations: [
+            {
+                service: 'danf:manipulation.callbackExecutor',
+                method: 'execute',
+                arguments: [
+                    function(context) {
+                        var errors = {};
+
+                        if (
+                            context.request &&
+                            context.request.session
+                        ) {
+                            if (context.request.session.loginError) {
+                                errors.login = context.request.session.loginError;
+                            }
+
+                            if (context.request.session.registerError) {
+                                errors.register = context.request.session.registerError;
+                            }
+                        }
+
+                        return errors;
+                    },
+                    '!.!'
+                ],
+                scope: 'errors'
             }
         ]
     },
@@ -865,6 +1007,24 @@ module.exports = {
         },
         operations: [
             {
+                order: -1,
+                service: 'danf:http.sessionHandler',
+                method: 'set',
+                arguments: [
+                    'loginError',
+                    null
+                ]
+            },
+            {
+                order: -1,
+                service: 'danf:http.sessionHandler',
+                method: 'set',
+                arguments: [
+                    'registerError',
+                    null
+                ]
+            },
+            {
                 order: 0,
                 service: 'gnuckiMongodb:db.main.collection.players',
                 method: 'findOne',
@@ -886,15 +1046,6 @@ module.exports = {
                     'registerError',
                     'Player "@username@" already exists'
                 ]
-            },
-            {
-                order: 2,
-                condition: function(stream) {
-                    return null != stream.player;
-                },
-                service: 'danf:http.redirector',
-                method: 'redirect',
-                arguments: ['!request.url!']
             },
             {
                 order: 10,
@@ -919,6 +1070,16 @@ module.exports = {
         ],
         children: [
             {
+                order: 2,
+                condition: function(stream) {
+                    return null != stream.player;
+                },
+                name: 'redirectLogin',
+                input: {
+                    origin: '@origin@'
+                }
+            },
+            {
                 order: 20,
                 name: 'login',
                 input: {
@@ -940,6 +1101,20 @@ module.exports = {
             },
             {
                 order: 1,
+                condition: function (stream) {
+                    return !!stream.player;
+                },
+                service: 'gnuckiMongodb:db.main.collection.players',
+                method: 'findOne',
+                arguments: [
+                    {
+                        username: '@player.username@'
+                    }
+                ],
+                scope: 'player'
+            },
+            {
+                order: 2,
                 service: 'danf:tcp.messenger',
                 method: 'emit',
                 arguments: [

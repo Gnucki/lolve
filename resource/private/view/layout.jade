@@ -20,8 +20,7 @@ html
     body
         header
             div(id='header')
-                a(id='fight-link', href='/fight', data-ajax='{}')
-                a(href='/', data-ajax='{}')
+                a(id='back-home', href='/', data-ajax='{}')
                     img(src='/-/gnucki-lolve/img/lolve.png')
                 div(id='player')
                     a(class='loader', href='/player', data-ajax='{"autoload": 0}')
@@ -40,3 +39,6 @@ html
         footer
             div(id='footer')
                 a(href='/champions', data-ajax='{"autoload": 0}')
+                div(class='powered')
+                    a(href='https://github.com/gnodi/danf')
+                        img(src='/-/gnucki-lolve/img/powered.png')
