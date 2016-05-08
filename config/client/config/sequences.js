@@ -38,13 +38,13 @@ module.exports = {
                 service: 'fightProcessor',
                 method: 'check',
                 scope: 'fighting'
-            },
+            },/*
             {
                 order: 1,
                 service: 'playerFrame',
                 method: 'getUsername',
                 scope: 'username'
-            },
+            },*/
             {
                 order: 2,
                 condition: function(stream) {
@@ -53,10 +53,10 @@ module.exports = {
                 service: 'danf:tcp.messenger',
                 method: 'emit',
                 arguments: [
-                    '[-]fightLoading',
+                    '[-]fightLoading'/*,
                     {
                         username: '@username@'
-                    }
+                    }*/
                 ]
             }
         ]

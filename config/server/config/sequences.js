@@ -349,6 +349,12 @@ module.exports = {
         ]
     },
     loadFight: {
+        stream: {
+            username: {
+                type: 'string',
+                default: ''
+            }
+        },
         operations: [
             {
                 order: 0,
@@ -449,6 +455,39 @@ module.exports = {
                     input: '@processedFights@',
                     method: '||'
                 }
+            },
+            {
+                order: 10,
+                name: 'purgeFight',
+                input: {
+                    fight: '@@.@@'
+                },
+                collection: {
+                    input: '@processedFights@',
+                    method: '||'
+                }
+            }
+        ]
+    },
+    purgeFight: {
+        stream: {
+            fight: {
+                type: 'object',
+                required: true
+            }
+        },
+        operations: [
+            {
+                order: 0,
+                condition: function(stream) {
+                    return stream.fight.ended;
+                },
+                service: 'gnuckiMongodb:db.main.collection.fights',
+                method: 'deleteOne',
+                arguments: [
+                    {_id: '@fight._id@'},
+                    '@fight@'
+                ]
             }
         ]
     },
@@ -456,6 +495,10 @@ module.exports = {
         stream: {
             number: {
                 type: 'number',
+                required: true
+            },
+            role: {
+                type: 'string',
                 required: true
             }
         },
@@ -466,6 +509,7 @@ module.exports = {
                 method: 'chooseSummoner',
                 arguments: [
                     '@number@',
+                    '@role@',
                     '@fight@',
                     '!request.session.player!'
                 ],

@@ -5,18 +5,18 @@
  */
 module.exports = {
     fightLoading: {
-        data: {
+        /*data: {
             username: {
                 type: 'string',
                 default: ''
             }
-        },
+        },*/
         sequences: [
             {
-                name: 'loadFight',
+                name: 'loadFight'/*,
                 input: {
-                    username: '@username@'
-                }
+                    username: ''
+                }*/
             }
         ]
     },
@@ -25,17 +25,21 @@ module.exports = {
             number: {
                 type: 'number',
                 required: true
+            },
+            role: {
+                type: 'string',
+                required: true
             }
         },
         sequences: [
             {
                 name: 'chooseSummoner',
                 condition: function(stream, context) {
-                    console.log('----', context.request.session);
                     return null != context.request.session.player;
                 },
                 input: {
-                    number: '@number@'
+                    number: '@number@',
+                    role: '@role@'
                 }
             }
         ]

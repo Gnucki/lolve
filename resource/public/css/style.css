@@ -219,6 +219,13 @@ div {
     font-weight: bold;
 }
 
+#fight .game .result {
+    color: #FFCC00;
+    display: none;
+    font-size: 5em;
+    font-weight: bold;
+}
+
 #fight .countdown {
     font-size: 2.5em;
     font-weight: bold;

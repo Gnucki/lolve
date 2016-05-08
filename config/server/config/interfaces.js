@@ -40,6 +40,7 @@ module.exports = {
             chooseSummoner:  {
                 arguments: [
                     'number/number',
+                    'string/role',
                     'object/fight',
                     'object/player'
                 ]
