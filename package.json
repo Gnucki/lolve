@@ -28,7 +28,7 @@
         "module",
         "lolve"
     ],
-    "license": "LicenseRef-LICENSE",
+    "license": "MIT",
     "repository": "git://github.com/gnucki/danf-gnucki-lolve",
     "scripts": {
         "test": "make test"
