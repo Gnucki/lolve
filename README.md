@@ -31,7 +31,7 @@ A working instance is available [here](http://www.lolve.lol/).
 
 To build your own site instance, you have to do the following steps:
 
-1- Install an instance of MongoDB
+1- Install an instance of MongoDB.
 
 2- Go in the directory where you want to install the project.
 
@@ -74,11 +74,11 @@ $ node danf serve --env prod
 
 7- Open a page at `http://localhost:3080` in your favorite browser (the game has been tested on chrome and firefox).
 
-8- Create a player of name `A.I.` to enable the training mode.
+8- Create a player of username `A.I.` to enable the training mode.
 
 9- Disconnect from A.I. account.
 
-10- Create your player and lets play!
+10- Create your player and let's play!
 
 ### Possible improvements
 
