@@ -311,3 +311,7 @@ div {
 #fight .line-item {
     visibility: hidden;
 }
+
+#fight .back {
+    margin: 10px;
+}
