@@ -30,5 +30,14 @@ module.exports = {
                 arguments: ['object|string/image']
             }
         }
+    },
+    synchronizer: {
+        methods: {
+            computeDiff: {},
+            synchronize: {
+                arguments: ['number/time'],
+                returns: 'number'
+            }
+        }
     }
 };

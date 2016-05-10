@@ -9,7 +9,7 @@ module.exports = {
             {
                 service: 'selector',
                 method: 'selectAvatar',
-                arguments: ['http://ddragon.leagueoflegends.com/cdn/6.8.1/img/champion/Trundle.png']
+                arguments: ['http://ddragon.leagueoflegends.com/cdn/6.8.1/img/champion/Trundle.png']
             }
         ]
     },
@@ -18,7 +18,7 @@ module.exports = {
             {
                 service: 'selector',
                 method: 'selectAvatar',
-                arguments: ['!event.target!']
+                arguments: ['!event.target!']
             }
         ]
     },
@@ -27,7 +27,7 @@ module.exports = {
             {
                 service: 'playerFrame',
                 method: 'update',
-                arguments: ['@player@']
+                arguments: ['@player@']
             }
         ]
     },
@@ -38,13 +38,7 @@ module.exports = {
                 service: 'fightProcessor',
                 method: 'check',
                 scope: 'fighting'
-            },/*
-            {
-                order: 1,
-                service: 'playerFrame',
-                method: 'getUsername',
-                scope: 'username'
-            },*/
+            },
             {
                 order: 2,
                 condition: function(stream) {
@@ -53,10 +47,7 @@ module.exports = {
                 service: 'danf:tcp.messenger',
                 method: 'emit',
                 arguments: [
-                    '[-]fightLoading'/*,
-                    {
-                        username: '@username@'
-                    }*/
+                    '[-]fightLoading'
                 ]
             }
         ]
@@ -66,7 +57,15 @@ module.exports = {
             {
                 service: 'fightProcessor',
                 method: 'process',
-                arguments: ['@fight@']
+                arguments: ['@fight@']
+            }
+        ]
+    },
+    synchronize: {
+        operations: [
+            {
+                service: 'synchronizer',
+                method: 'computeDiff'
             }
         ]
     }

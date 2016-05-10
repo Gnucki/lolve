@@ -138,6 +138,10 @@ module.exports = {
             },
             {
                 order: 1,
+                name: 'removeWaiting'
+            },
+            {
+                order: 2,
                 name: 'checkFighting',
                 output: {
                     fighting: '@fighting@'
@@ -163,6 +167,10 @@ module.exports = {
             },
             {
                 order: 1,
+                name: 'removeWaiting'
+            },
+            {
+                order: 2,
                 name: 'checkFighting',
                 output: {
                     fighting: '@fighting@'
@@ -188,6 +196,10 @@ module.exports = {
             },
             {
                 order: 1,
+                name: 'removeWaiting'
+            },
+            {
+                order: 2,
                 name: 'checkFighting',
                 output: {
                     fighting: '@fighting@'
@@ -210,7 +222,7 @@ module.exports = {
             {
                 order: 0,
                 name: 'wait',
-                input: {
+                input: {
                     for: '@for@',
                     mode: '@mode@'
                 }
@@ -232,6 +244,13 @@ module.exports = {
             {
                 order: 0,
                 name: 'checkLogin'
+            },
+            {
+                order: 1,
+                name: 'checkFighting',
+                input: {
+                    redirection: '/'
+                }
             }
         ]
     },
@@ -256,7 +275,19 @@ module.exports = {
             }
         ]
     },
-    lolApi: {
+    time: {
+        view: {
+            html: {
+                layout: {
+                    file: '%view.path%/layout.jade'
+                },
+                body: {
+                    file: '%view.path%/time.jade'
+                }
+            }
+        }
+    },
+    lolApi: {
         host: '%lol.api.host%',
         parameters: {
             api_key: '%lol.api.key%'

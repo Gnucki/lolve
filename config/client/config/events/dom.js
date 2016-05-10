@@ -12,6 +12,9 @@ module.exports = {
             },
             {
                 name: 'initializeFight'
+            },
+            {
+                name: 'synchronize'
             }
         ]
     },

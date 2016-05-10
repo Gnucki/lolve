@@ -30,6 +30,10 @@ html, body {
     display: none;
 }
 
+#time {
+    display: none;
+}
+
 #footer {
     background-color: #000;
     border-top: 1px solid #222;

@@ -52,5 +52,9 @@ module.exports = {
     champions: {
         path: '/champions',
         methods: ['GET']
+    },
+    time: {
+        path: '/time',
+        methods: ['GET']
     }
 };

@@ -16,6 +16,12 @@ module.exports = {
      *
      */
     checkFighting: {
+        stream: {
+            redirection: {
+                type: 'string',
+                default: ''
+            }
+        },
         operations: [
             {
                 order: 0,
@@ -67,6 +73,15 @@ module.exports = {
                     '@fight@'
                 ],
                 scope: 'fighting'
+            },
+            {
+                order: 20,
+                condition: function(stream) {
+                   return !stream.fighting && stream.redirection;
+                },
+                service: 'danf:http.redirector',
+                method: 'redirect',
+                arguments: ['@redirection@']
             }
         ]
     },
@@ -213,6 +228,23 @@ module.exports = {
                     {
                         player: '!request.session.player.username!',
                         for: '@for@'
+                    }
+                ]
+            }
+        ]
+    },
+    removeWaiting: {
+        operations: [
+            {
+                order: 2,
+                condition: function(stream, context) {
+                    return context.request.session && context.request.session.player;
+                },
+                service: 'gnuckiMongodb:db.main.collection.waiters',
+                method: 'deleteOne',
+                arguments: [
+                    {
+                        player: '!request.session.player.username!'
                     }
                 ]
             }
@@ -619,7 +651,7 @@ module.exports = {
                 input: {
                     username: ''
                 },
-                output: {
+                output: {
                     fight: '@fight@'
                 }
             },
@@ -629,7 +661,7 @@ module.exports = {
                 input: {
                     username: ''
                 },
-                output: {
+                output: {
                     fight: '@fight@'
                 }
             },
@@ -919,7 +951,7 @@ module.exports = {
                         if (
                             context.request &&
                             context.request.session
-                        ) {
+                        ) {
                             if (context.request.session.loginError) {
                                 errors.login = context.request.session.loginError;
                             }
@@ -1069,7 +1101,7 @@ module.exports = {
                 scope: 'player'
             }
         ],
-        children: [
+        children: [
             {
                 order: 2,
                 condition: function(stream) {
@@ -1091,7 +1123,7 @@ module.exports = {
             }
         ]
     },
-    updatePlayer: {
+    updatePlayer: {
         operations: [
             {
                 order: 0,
@@ -1239,7 +1271,7 @@ module.exports = {
                 arguments: ['@summoners@']
             }
         ],
-        children: [
+        children: [
             {
                 order: 10,
                 name: 'loadSummoner',

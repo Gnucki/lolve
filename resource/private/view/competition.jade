@@ -1,10 +1,14 @@
 h1 Competition
 
-p
-    span This is the competitive mode.
-    br
-    span Each game will impact your win and lose counters.
+if fighting
+    p You are already fighting !
+    a(href='/fight', class='hollow button', data-ajax='{}') Go
+else
+    p
+        span This is the competitive mode.
+        br
+        span Each game will impact your win and lose counters.
 
-form(action='/waiting', method='POST', data-ajax='{}')
-    input(name='mode', type='hidden', value='competition')
-    input(type='submit', class='hollow button', value='Fight')
+    form(action='/waiting', method='POST', data-ajax='{}')
+        input(name='mode', type='hidden', value='competition')
+        input(type='submit', class='hollow button', value='Fight')

@@ -8,7 +8,8 @@ module.exports = {
         class: 'fightProcessor',
         properties: {
             jquery: '#danf:vendor.jquery#',
-            messenger: '#danf:tcp.messenger#'
+            messenger: '#danf:tcp.messenger#',
+            synchronizer: '#synchronizer#'
         }
     },
     playerFrame: {
@@ -19,6 +20,12 @@ module.exports = {
     },
     selector: {
         class: 'selector',
+        properties: {
+            jquery: '#danf:vendor.jquery#'
+        }
+    },
+    synchronizer: {
+        class: 'synchronizer',
         properties: {
             jquery: '#danf:vendor.jquery#'
         }

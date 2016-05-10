@@ -1,15 +1,19 @@
 h1 Challenge
 
-p
-    span This is the challenging mode
-    br
-    span It allows you to challenge your friends
-    br
-    span(class='info') enter the name of your opponent and click the challenge button and ask him to do the same
+if fighting
+    p You are already fighting !
+    a(href='/fight', class='hollow button', data-ajax='{}') Go
+else
+    p
+        span This is the challenging mode
+        br
+        span It allows you to challenge your friends
+        br
+        span(class='info') enter the name of your opponent and click the challenge button and ask him to do the same
 
-form(action='/waiting', method='POST', data-ajax='{}')
-    label(class='label', for='for') Username
-    input(name='for', type='text')
-    input(name='mode', type='hidden', value='challenge')
-    br
-    input(type='submit', class='hollow button', value='Challenge')
+    form(action='/waiting', method='POST', data-ajax='{}')
+        label(class='label', for='for') Username
+        input(name='for', type='text')
+        input(name='mode', type='hidden', value='challenge')
+        br
+        input(type='submit', class='hollow button', value='Challenge')
