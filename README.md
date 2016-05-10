@@ -82,6 +82,6 @@ $ node danf serve --env prod
 
 ### Possible improvements
 
-- Add bonus points to apply on one lane
-- Add a list of best players
+- Add bonus points to apply on one lane.
+- Add a list of best players.
 - ...
