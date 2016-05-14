@@ -31,7 +31,7 @@ A working instance is available [here](http://www.lolve.lol/).
 
 To build your own site instance, you have to do the following steps:
 
-1- Install git, node.js and an instance of MongoDB.
+1- Install Git, Node.js and an instance of MongoDB.
 
 2- Go in the directory where you want to install the project.
 
@@ -47,7 +47,7 @@ $ git clone git@github.com:Gnucki/lolve.git
 $ npm install -g npm
 ```
 
-6- Install project dependecies with npm.
+6- Install project dependecies with npm:
 ```sh
 $ npm install
 ```
